@@ -1,0 +1,30 @@
+<style>
+    .page-header {
+        border-bottom: 2px solid #ccc;
+        padding: 20px 0;
+        background-color: #FF4F66;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        margin-left: 20px;
+        width: 5%;
+    }
+
+</style>
+
+<header class="page-header"> 
+    {% if request.session.user_data.role %}
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'list_view' %}'">Список ліків</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'add_batch_preview' %}'">Додавання партії</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'reg' %}'">Реєстрація фармацевтів</button>
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'new_product' %}'">Реєстрація товарів</button>
+    {% else %}
+        <button type="button" class="btn btn-secondary" onclick="window.location.href='{% url 'list_view' %}'">Список ліків</button>
+    {% endif %}
+
+        <form action="/logout/" method="post" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary ms-auto" style="margin-right: 20px; float:right; width:10%;">Вийти</button>
+        </form>
+</header>

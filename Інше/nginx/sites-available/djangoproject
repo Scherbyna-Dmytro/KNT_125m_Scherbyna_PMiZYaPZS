@@ -1,0 +1,15 @@
+upstream django {
+	server 127.0.0.1:8080;
+}
+
+server {
+	listen 443 ssl;
+	
+	ssl_certificate /etc/ssl/certs/httpsca.crt;
+	ssl_certificate_key /etc/ssl/private/httpsca.key;
+	
+	location / {
+		uwsgi_pass django;
+		include uwsgi_params;
+		}
+}

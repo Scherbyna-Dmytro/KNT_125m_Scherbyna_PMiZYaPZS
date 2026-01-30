@@ -1,0 +1,161 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Зміна статусу упаковки</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+
+    .page-header {
+        text-align: center;
+        border-bottom: 2px solid #ccc;
+        padding: 20px 0;
+        background-color: #FF4F66;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-weight: bold;
+    }
+
+    .container{
+        background-color: silver;
+        height: calc(100vh - 176px);
+    }
+
+    .selecter{
+        font-size: 24px;
+        font-weight: bold;
+        width: 100%; 
+        text-align: center;
+    }
+
+    body {
+        font-family: 'Courier New', bold;
+        margin: 0;
+        padding: 0;
+    }
+
+    .btn {
+        font-size: 22px;
+        font-weight: bold;
+        width: 18%;
+        padding: 10px 20px;
+        margin-left: 10px;
+        height: 70px;
+    }
+
+    .btn:hover {
+        color: white;
+    }
+
+    .form-control {
+        font-size: 18px;
+        height: 35px;
+    }
+
+    .form-label {
+        font-weight: bold;
+        font-size: 18px;
+        padding: 5px 20px;
+        display: block;
+        margin-top: 15px;
+        width: 70%;
+    }
+
+    .input {
+        font-size: 18px;
+        padding: 10px 20px;
+    }
+
+</style>
+
+
+
+</head>
+
+<header class="page-header"> 
+    <h1>Верифікація медичних препаратів</h1>
+</header>
+
+<body>
+    <div class="container" style="border-left: 2px solid #ccc; border-right: 2px solid #ccc;">
+
+            <div class="message-placeholder" style="height: 30px; max-height: 30px; padding: 15px 0;">
+                {% if message %}
+                    <p style="font-size: 20px; background-color: yellow; padding: 5px 0; position: sticky; margin-bottom: -10px; text-align: center;"><strong>{{ message }}</strong></p> 
+                {% endif %}
+            </div>
+
+        <div class="row">
+
+            <div class="col-md-12" style="margin: 40px 0;">
+                <form style="display: flex; align-items: flex-start; gap: 20px;" enctype="multipart/form-data" action="/get_qr_info/" method="post">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <label for="qr_code_image" class="form-label" style="margin-left: 15px;">Оберіть файл з QR-кодом:</label>
+                        <input type="file" name="qr_code_image" id="qr_code_image" class="form-control" style="margin-left: 15px;" accept="image/*" required>
+                        <span style="color:red; margin-left: 15px;">
+                            {{ form.qr_code_image.errors|striptags }}
+                        </span>
+                    </div>
+
+                    <div style="margin-top: 25px; width: 50%; display: flex; flex-direction: column; gap: 10px;">
+                        <div class="row mt-3">
+                            <button type="submit" style="width: 80%; margin-left: 10%;" class="btn btn-secondary">Перевірити упаковку</button>
+                        </div>
+                    </div> 
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <label for="selected_product_name" class="form-label">Продукт</label>
+                <input  readonly class="form-control" id="selected_product_name" value="{{package_info.product_name}} - {{package_info.product_id}}" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="selected_package_id" class="form-label">ID упаковки</label>
+                <input  readonly class="form-control" id="selected_package_id" value="{{package_info.package_id}}" />
+            </div>
+
+            <div class="col-md-12">
+                <label for="selected_address" class="form-label">Адреса зберігання (мед. установа)</label>
+                <input  readonly class="form-control" id="selected_address" value="{{package_info.address}}" />
+            </div>
+
+            <div class="col-md-6">
+                <label for="selected_manufacturer_name" class="form-label">Виробник</label>
+                <input  readonly class="form-control" id="selected_manufacturer_name" value="{{package_info.manufacturer_name}}" />
+
+                <label for="selected_expiration_date_1" class="form-label">Виготовлено:</label>
+                <input  readonly class="form-control" id="selected_expiration_date_1" value="{{package_info.expiration_date_1}}" />
+
+                <label for="selected_package_size" class="form-label">Розмір упаковки</label>
+                <input readonly class="form-control" id="selected_package_size" value="{{package_info.package_size}}" />
+            </div>
+
+             <div class="col-md-6">
+                <label for="selected_batch_id" class="form-label">Номер партії</label>
+                <input  readonly class="form-control" id="selected_batch_id" value="{{package_info.batch_id}}" />
+
+                <label for="selected_expiration_date_2" class="form-label">Вжити до:</label>
+                <input  readonly class="form-control" id="selected_expiration_date_2" value="{{package_info.expiration_date_2}}" />
+
+                <label for="selected_package_status" class="form-label">Статус</label>
+                <input  readonly class="form-control" id="selected_package_status" value="{{package_info.status}}" />
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+{% include "footer.html" %}
+</html>
+
+
