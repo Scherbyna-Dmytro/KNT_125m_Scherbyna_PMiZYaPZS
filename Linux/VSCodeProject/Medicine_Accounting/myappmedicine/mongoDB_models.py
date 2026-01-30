@@ -9,11 +9,6 @@ instance = MotorAsyncIOInstance()
 def get_db():
 
     _client = None
-
-    # try:
-    #     current_loop = asyncio.get_running_loop()
-    # except RuntimeError:
-    #     current_loop = None
         
     if _client is None:
         _client = AsyncIOMotorClient('mongodb+srv://dsscherbinazp_db_user:zpEfh6bfddu20ef7@cluster1.y0gwbdq.mongodb.net/',

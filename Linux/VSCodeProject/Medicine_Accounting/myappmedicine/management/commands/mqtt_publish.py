@@ -12,7 +12,6 @@ MQTT_PASSWORD = "tjMC54%@"
 
 BASE_DIR = Path(__file__).resolve().parents[3]
 CA_CERT_PATH = BASE_DIR / "ca.crt"
-#CA_CERT_PATH = "ca.crt"
 
 async def mqtt_request(topic, payload, timeout = 5):
     
@@ -21,12 +20,8 @@ async def mqtt_request(topic, payload, timeout = 5):
 
     context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
     context.load_verify_locations(str(CA_CERT_PATH))
-        
-    # context = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
-    # context.check_hostname = False
-    # context.verify_mode = ssl.CERT_NONE
 
-    # async with Client(MQTT_BROKER, MQTT_PORT) as client: 
+
     async with Client(MQTT_BROKER, MQTT_PORT, username = MQTT_LOGIN, password = MQTT_PASSWORD, tls_context = context) as client:
 
         await client.subscribe(reply_topic, qos = 1)
